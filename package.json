@@ -1,0 +1,12 @@
+{
+  "name": "kuvo-obs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "~8.0.0",
+    "obs-websocket-js": "~4.0.2",
+    "json5": "^2.2.0"
+
+  }
+}
