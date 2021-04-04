@@ -29,8 +29,18 @@
     ],
     "rules": {
         "complexity": ["error", 10],
-        "react/prop-types": false,
-        "typescript-eslint/interface-name-prefix": ["error", { "prefixWithI":  true}],
+        "react/prop-types": 2,
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "interface",
+                "format": ["PascalCase"],
+                "custom": {
+                    "regex": "^I[A-Z]+.*",
+                    "match": false
+                }
+            }
+        ],
         "prettier/prettier": ["error"]
     }
 }

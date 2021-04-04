@@ -38,6 +38,14 @@ module.exports = {
         // TypeScript をコンパイルする
         use: 'ts-loader',
       },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: "css-modules-typescript-loader" },
+          { loader: 'css-loader', options: { modules: true} },
+        ]
+      },
     ],
   },
   // 処理対象のファイルを記載する
