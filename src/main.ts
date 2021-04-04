@@ -6,16 +6,13 @@ const createWindow = (): void => {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
       contextIsolation: true,
+      preload: path.join(__dirname, '/core/preload.js'),
     },
   });
 
-  window.loadFile('./index.html');
-
   window.webContents.openDevTools();
-
+  window.loadFile('./index.html');
 };
 
 app.whenReady().then(createWindow);

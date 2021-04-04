@@ -3,7 +3,7 @@ import React, { ChangeEvent, useCallback, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import { addTaskAction } from '../action/TaskActions';
+import { addTask } from '../action/TaskActions';
 import { useDispatch } from 'react-redux';
 
 // #region styled
@@ -40,7 +40,9 @@ const AddButton = styled.button`
 
 const AddTask: React.FC = () => {
   const dispatch = useDispatch();
-  const [deadline, setDeadline] = useState<Date>(moment().add('day', 1).toDate());
+  const [deadline, setDeadline] = useState<Date>(
+    moment().add('day', 1).toDate(),
+  );
   const [taskName, setTaskName] = useState<string>('');
   const onChangeTaskName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setTaskName(e.currentTarget.value);
@@ -49,13 +51,14 @@ const AddTask: React.FC = () => {
     setDeadline(date);
   }, []);
   const onClickAddButton = useCallback(() => {
-    dispatch(
-      addTaskAction({
+    addTask(
+      {
         complete: false,
         deadline,
         taskName,
         id: '',
-      }),
+      },
+      dispatch,
     );
   }, [deadline, taskName]);
 
@@ -80,7 +83,7 @@ const AddTask: React.FC = () => {
       </DeadlineBox>
       <AddButton onClick={onClickAddButton}>+</AddButton>
     </Container>
-  )
+  );
 };
 
 export default AddTask;

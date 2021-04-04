@@ -1,15 +1,15 @@
 import moment from 'moment';
 import React, { useCallback, useMemo, MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTaskAction, toggleCompleteAction } from '../action/TaskActions';
+import { deleteTask, toggleTask } from '../action/TaskActions';
 import { ITask } from '../states/ITask';
 import { styled } from './FoundationStyles';
 
 // #region styled
 const Task = styled.div<{ expiration: boolean }>`
   align-items: center;
-  background-color: ${(p): string => 
-          p.expiration ? 'inherit' : p.theme.SECONDARY_2_0};
+  background-color: ${(p): string =>
+    p.expiration ? 'inherit' : p.theme.SECONDARY_2_0};
   border-radius: 5px;
   cursor: pointer;
   border: 1px solid rgb(200, 200, 200);
@@ -68,14 +68,14 @@ const TaskRow: React.FC<{ data: ITask }> = props => {
     return moment(data.deadline).format('YYYY-MM-DD HH:mm');
   }, [data.id]);
   const onRowClick = useCallback(() => {
-    dispatch(toggleCompleteAction(data.id));
-  }, [data.deadline]);
+    toggleTask(data, dispatch);
+  }, [data]);
   const onDeleteClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      dispatch(deleteTaskAction(data.id));
+      deleteTask(data.id, dispatch);
       e.stopPropagation();
     },
-    [data.id]
+    [data.id],
   );
   return (
     <Task expiration={expiration} onClick={onRowClick}>
@@ -88,7 +88,7 @@ const TaskRow: React.FC<{ data: ITask }> = props => {
       </TaskBody>
       <TaskRemove onClick={onDeleteClick}>❌</TaskRemove>
     </Task>
-  )
-}
+  );
+};
 
 export default TaskRow;

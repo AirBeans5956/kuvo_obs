@@ -14,6 +14,6 @@ ReactDOM.render(
       <GlobalStyle />
       <TaskListContainer />
     </ThemeProvider>
-  </Provider>
-, container
+  </Provider>,
+  container,
 );

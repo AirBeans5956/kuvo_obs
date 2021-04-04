@@ -2,7 +2,7 @@ import 'reset-css/reset.css';
 
 import baseStyled, {
   createGlobalStyle,
-  ThemedStyledInterface
+  ThemedStyledInterface,
 } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`

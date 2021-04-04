@@ -5,6 +5,7 @@ import { ITask, ITaskList } from '../states/ITask';
 import AddTask from './AddTask';
 import { styled } from './FoundationStyles';
 import TaskRow from './TaskRow';
+import Loading from './Loading';
 import { getTaskList } from '../action/TaskActions';
 
 const MainContainer = styled.div`
@@ -51,15 +52,23 @@ const TaskListContainer: React.FC = () => {
   const taskListElement = useMemo(() => {
     return createTaskList(taskList.tasks);
   }, [taskList.tasks]);
+  const errorMessage = useMemo(() => {
+    if (!taskList.failedMessage) {
+      return null;
+    }
+    return <p>{taskList.failedMessage}</p>;
+  }, [taskList.failedMessage]);
   return (
     <div>
       <Header>TASK LIST</Header>
       <MainContainer>
         <AddTask />
+        {errorMessage}
         <TaskList>{taskListElement}</TaskList>
+        <Loading shown={taskList.loading} />
       </MainContainer>
     </div>
-  )
+  );
 };
 
 export default TaskListContainer;
