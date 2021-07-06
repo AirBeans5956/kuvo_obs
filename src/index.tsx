@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle, theme } from './components/FoundationStyles';
-import TaskListContainer from './components/TaskList';
-import Store from './Store';
+import createStore from './ducks/store';
+import KuvoObsContainer from './components/template/KuvoObsContainer';
 
 const container = document.getElementById('contents');
 
 ReactDOM.render(
-  <Provider store={Store}>
+  <Provider store={createStore()}>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <TaskListContainer />
+      <KuvoObsContainer />
     </ThemeProvider>
   </Provider>,
   container,

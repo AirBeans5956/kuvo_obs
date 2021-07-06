@@ -4,6 +4,8 @@ import path from 'path';
 import shortid from 'shortid';
 import { ITask } from '../states/ITask';
 import ICore from './ICore';
+import { connectObs, disconnectObs, showTrackData } from './modules/obs';
+import { fetchTrackData } from './modules/kuvo';
 
 const dataFilePath = path.join(os.homedir(), 'todo.json');
 
@@ -15,74 +17,19 @@ const setTimeoutPromise = (count: number): Promise<void> => {
   });
 };
 
-export const __private__ = {
-  reviver: (key: string, value: unknown): unknown => {
-    if (key === 'deadline') {
-      return new Date(value as string);
-    } else {
-      return value;
-    }
-  },
-  replacer: (key: string, value: unknown): unknown => {
-    if (key !== 'deadline') {
-      return value;
-    }
-    return new Date(value as string).toISOString();
-  },
-};
-
-const loadTaskList = async (): Promise<ITask[]> => {
-  const exist = await fs.pathExists(dataFilePath);
-  if (!exist) {
-    fs.ensureFileSync(dataFilePath);
-    await fs.writeJSON(dataFilePath, { data: []});
-  }
-  const jsonData = (await fs.readJSON(dataFilePath, {
-    reviver: __private__.reviver,
-  })) as { data: ITask[] };
-  await setTimeoutPromise(50);
-  return jsonData.data;
-};
-
-const saveTaskList = async (taskList: ITask[]): Promise<void> => {
-  await fs.writeJSON(
-    dataFilePath,
-    { data: taskList },
-    {
-      replacer: __private__.replacer,
-      spaces: 2,
-    },
-  );
-};
-
-const saveTask = async (task: ITask): Promise<ITask[]> => {
-  await setTimeoutPromise(50);
-  const taskList = await loadTaskList();
-  const existTask = taskList.find(pTask => pTask.id === task.id);
-  if (!task.id || !existTask) {
-    task.id = shortid();
-    taskList.push(task);
-  } else {
-    existTask.complete = task.complete;
-    existTask.deadline = task.deadline;
-    existTask.taskName = task.taskName;
-  }
-  await saveTaskList(taskList);
-  return taskList;
-};
-
-const deleteTask = async (id: string): Promise<ITask[]> => {
-  await setTimeoutPromise(50);
-  const taskList = await loadTaskList();
-  const deletedTaskList = taskList.filter(task => task.id !== id);
-  await saveTaskList(deletedTaskList);
-  return deletedTaskList;
-};
+const refreshTrackData = async (playlistId: number): Promise<void> => {
+  process.stdout.write('Refreshing...');
+  const data = await fetchTrackData(playlistId);
+  await showTrackData(data);
+  console.log('Complete!!');
+}
 
 const core: ICore = {
-  loadTaskList,
-  saveTask,
-  deleteTask,
+  connectObs,
+  disconnectObs,
+  showTrackData,
+  fetchTrackData,
+  refreshTrackData
 };
 
 export default core;

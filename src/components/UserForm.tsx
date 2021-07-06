@@ -4,10 +4,11 @@ import { changeUserAction } from '../action/UserActions';
 import { IState } from '../states/IState';
 import IUser from '../states/IUser';
 import CountButton from './CountButton';
-import TextBox from './TextBox';
+import TextBox from './atoms/TextBox';
+import TextForm from './molecules/Form/TextForm';
 
 const UserForm: React.FC<IUser> = props => {
-  const { name, count } = useSelector<IState, IUser>(a => a.user);
+  const count = 0;
   const dispatch = useDispatch();
   const onNameChange = useCallback((value: string) => {
     dispatch(changeUserAction({ name: value }));
@@ -18,10 +19,11 @@ const UserForm: React.FC<IUser> = props => {
   return (
     <div>
       <p>
-        <TextBox
-          value={name}
+        <TextForm
+          value={''}
           type={'text'}
-          label={name}
+          label=""
+          name='hoge'
           onChangeText={onNameChange}
         />
       </p>

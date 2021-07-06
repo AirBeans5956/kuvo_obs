@@ -21,17 +21,16 @@ export const GlobalStyle = createGlobalStyle`
     transition-property: all;
     transition-duration: .2s;
     &:hover {
-      box-shadow: 3px 3px 3px rgba(200,200,200,4);
-      transform: translate(-2px, -2px);
+      box-shadow: 0 0 2px 2px rgba(200,200,200,4);
     }
     &:active {
       background-color: #cccc00;
     }
   }
-  input[type=text] {
+  input[type=text],input[type=password] {
     border-radius: 5px;
     border: 1px solid #ddd;
-    padding: .5em;
+    padding: .6em;
   }
 `;
 

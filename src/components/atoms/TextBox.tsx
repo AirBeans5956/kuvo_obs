@@ -1,16 +1,13 @@
 import React, { useMemo, useCallback } from 'react';
 
-interface IProps {
-  label: string;
+export interface ITextBoxProps {
+  name: string;
   type: 'text' | `password`;
   value: string;
   onChangeText: (value: string) => void;
 }
 
-const TextBox: React.FC<IProps> = props => {
-  const label = useMemo(() => {
-    return !!props.label ? <label>{props.label}</label> : null;
-  }, [props.label]);
+const TextBox: React.FC<ITextBoxProps> = props => {
   const onValueChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value;
@@ -20,9 +17,9 @@ const TextBox: React.FC<IProps> = props => {
   );
   return (
     <>
-      {label}
       <input
-        name="username"
+        id={props.name}
+        name={props.name}
         type={props.type}
         value={props.value}
         onChange={onValueChange}
