@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IObsState } from './types';
-import { connectObsThunk } from './operations';
+import { connectObsThunk, disconnectObsThunk } from './operations';
 
 export const initialState: IObsState = {
   isConnected: false,
@@ -25,6 +25,18 @@ const obsSlice = createSlice({
         ...state,
         connectStatus: 'success',
       };
+    });
+    builder.addCase(connectObsThunk.rejected, state => {
+      return {
+        ...state,
+        connectStatus: 'failed',
+      }
+    });
+    builder.addCase(disconnectObsThunk.fulfilled,state => {
+      return {
+        ...state,
+        connectStatus: 'disconnected',
+      }
     });
   },
 });

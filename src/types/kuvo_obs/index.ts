@@ -4,4 +4,4 @@ export interface KuvoTrack {
 }
 
 export type LampStatus = 'fine' | 'warning' | 'danger' | 'initial';
-export type ObsConnectStatus = 'idle' | 'connecting' | 'success' | 'failed';
+export type ConnectStatus = 'idle' | 'connecting' | 'success' | 'disconnected' | 'failed';

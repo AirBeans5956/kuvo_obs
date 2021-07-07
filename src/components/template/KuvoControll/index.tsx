@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useKuvoState } from '../../../ducks/kuvo/selectors';
+import { setPlaylistId } from '../../../ducks/kuvo/slice';
 import Button from '../../atoms/Button';
 import { fetchKuvoDataThunk } from '../../../ducks/kuvo/operations';
 import StatusLabel from '../../molecules/StatusLabel';
@@ -11,21 +12,26 @@ import CheckForm from '../../molecules/Form/CheckForm';
 const KuvoControll: React.FC = () => {
   const kuvoState = useKuvoState();
   const dispatch = useDispatch();
-  const [playlistId, setPlaylistId] = useState('');
   const [status, setStatus] = useState<LampStatus>('initial');
+  const [timer, setTimer] = useState<NodeJS.Timeout|null>(null);
   const connectStatusString = useMemo(() => {
-    switch (status) {
-      case 'initial':
-        return '未取得'
-      case 'danger':
-        return '失敗'
-      case 'fine':
-        return '成功';
-      case 'warning':
+    return kuvoState.isConnected ? '取得済み' : '未取得';
+  }, [kuvoState.isConnected]);
+  useEffect(() => {
+    switch (kuvoState.connectStatus) {
+      case 'success':
+        setStatus('fine');
+        break;
+      case 'failed':
+        setStatus('danger');
+        break;
+      case 'connecting':
+      case 'disconnected':
+      case 'idle':
       default:
-        return '不明';
+        setStatus('initial');
     }
-  }, [status]);
+  }, [kuvoState.connectStatus]);
   return (
     <div>
       <div>
@@ -38,21 +44,38 @@ const KuvoControll: React.FC = () => {
           label="KUVOプレイリストID"
           name="kuvo_playlist_id"
           type={'text'}
-          value={playlistId}
-          onChangeText={setPlaylistId}
+          value={''}
+          onChangeText={(value => {
+            let playlistId = Number.parseInt(value);
+            dispatch(setPlaylistId(playlistId));
+          })}
         />
       </div>
       <div>
         <Button
           label="更新"
           onClick={() => {
-            dispatch(fetchKuvoDataThunk(Number.parseInt(playlistId)));
+            dispatch(fetchKuvoDataThunk(kuvoState.playlistId));
           }}
         />
         <CheckForm
           name="kuvo_auto_refresh"
           labelText="自動更新"
-          onChanged={(checked) => {console.log("auto refresh: " + checked)}} />
+          onChanged={(checked) => {
+            console.log("swap auto refresh " + checked);
+            if (checked) {
+              let timeout = setInterval(() => {
+                console.log("-- auto refresh --");
+                dispatch(fetchKuvoDataThunk(kuvoState.playlistId));
+              }, 5 * 1000);
+              setTimer(timeout);
+            } else {
+              if (timer) {
+                clearInterval(timer);
+              }
+            }
+          }}
+        />
       </div>
     </div>
   );

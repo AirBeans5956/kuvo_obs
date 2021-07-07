@@ -8,6 +8,8 @@ export const fetchKuvoDataThunk = createAsyncThunk<
 >(
   'kuvo/fetchTrack',
   async (playlistId, thunkApi): Promise<KuvoTrack|null> => {
-    return await window.kuvo_obs.fetchTrackData(playlistId);
+    const trackData = await window.kuvo_obs.fetchTrackData(playlistId);
+    await window.kuvo_obs.showTrackData(trackData);
+    return trackData;
   }
 )

@@ -10,21 +10,21 @@ interface IStatusLampProps {
 const Lamp = styled.span((props: IStatusLampProps) => (`
   &:before {
     content: "●";
+    color: ${(): string => {
+      switch (props.status) {
+        case 'danger':
+          return 'red';
+        case 'fine':
+          return 'green';
+        case 'warning':
+          return 'yellow';
+        case 'initial':
+          return 'gray';
+        default:
+          return 'green';
+      }
+    }};
   }
-  color: ${(): string => {
-    switch (props.status) {
-      case 'danger':
-        return 'red';
-      case 'fine':
-        return 'green';
-      case 'warning':
-        return 'yellow';
-      case 'initial':
-        return 'gray';
-      default:
-        return 'green';
-    }
-  }};
 `));
 
 const StatusLamp: React.FC<IStatusLampProps>

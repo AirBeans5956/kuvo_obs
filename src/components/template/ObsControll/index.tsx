@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StatusLamp from '../../atoms/StatusLamp';
 import { useObsState } from '../../../ducks/obs/selectors';
 import { LampStatus } from '../../../types/kuvo_obs';
@@ -17,33 +17,45 @@ const ObsControll: React.FC = () => {
   const [password, setPassword] = useState('');
   const [connectStatus, setConnectStatus] = useState<LampStatus>('initial');
   const connectStatusString = useMemo(() => {
-    switch (connectStatus) {
-      case 'fine':
-        return '接続済み';
-      case 'danger':
+    switch (obsState.connectStatus) {
+      case 'connecting':
+        return '接続中';
+      case 'failed':
         return '接続失敗';
-      case 'warning':
+      case 'success':
+        return '接続済み';
+      case 'idle':
       default:
         return '未接続';
     }
-  }, [connectStatus]);
+  }, [obsState.connectStatus]);
   const obsConnectMessage = useMemo(() => {
-    if (obsState.isConnected === false) {
-      return connectStatus === 'fine'
-        ? 'OBSから切断しました'
-        : '';
-    }
-    switch (connectStatus) {
-      case 'fine':
+    switch (obsState.connectStatus) {
+      case 'success':
         return 'OBSへの接続に成功しました';
-      case 'warning':
-      case 'danger':
+      case 'failed':
         return 'OBSへの接続中にエラーが発生しました';
-      case 'initial':
+      case 'connecting':
+      case 'idle':
       default:
         return "";
     }
-  }, [connectStatus, obsState.isConnected]);
+  }, [obsState.connectStatus, obsState.isConnected]);
+  useEffect(() => {
+    switch (obsState.connectStatus) {
+      case 'failed':
+        setConnectStatus('danger')
+        break;
+      case 'success':
+        setConnectStatus('fine');
+        break;
+      case 'connecting':
+      case 'disconnected':
+      case 'idle':
+      default:
+        setConnectStatus('initial');
+    }
+  }, [obsState.connectStatus])
   return (
     <div>
       <div>
@@ -56,7 +68,7 @@ const ObsControll: React.FC = () => {
           label="OBSのポート"
           type={'text'}
           name="obs_ws_port"
-          value={port}
+          value=''
           onChangeText={setPort}
         />
       </div>
@@ -65,7 +77,7 @@ const ObsControll: React.FC = () => {
           label="OBSのパスワード"
           type={'password'}
           name="obs_ws_password"
-          value={password}
+          value=''
           onChangeText={setPassword}
         />
       </div>

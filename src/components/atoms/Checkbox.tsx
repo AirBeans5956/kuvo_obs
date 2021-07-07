@@ -11,8 +11,9 @@ const Checkbox: React.FC<IProps> = props => {
   const [checked, setChecked] = useState<boolean>(false);
   const onValueChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setChecked(e.currentTarget.checked);
-      props.onChange(checked);
+      let htmlCheck = e.currentTarget.checked;
+      setChecked(htmlCheck);
+      props.onChange(htmlCheck);
     },
     [props.onChange],
   );
