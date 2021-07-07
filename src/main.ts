@@ -11,7 +11,7 @@ const createWindow = (): void => {
     },
   });
 
-  window.webContents.openDevTools();
+  // window.webContents.openDevTools();
   window.loadFile('./index.html');
 };
 
