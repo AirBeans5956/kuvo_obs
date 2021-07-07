@@ -63,4 +63,8 @@ module.exports = {
       template: './index.html',
     }),
   ],
+  node: {
+    __dirname: false,
+    __filename: false,
+  }
 };

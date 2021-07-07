@@ -3,12 +3,16 @@ import { KuvoTrack } from '../../types/kuvo_obs';
 
 let browser: Browser | null = null;
 
+const getChroniumPath = (): string => {
+  return (Puppeteer as any).executablePath().replace('app.asar', 'app.asar.unpacked');
+}
+
 const launchBrowser = async (): Promise<Browser | null> => {
   if (browser !== null) {
     return browser;
   }
 
-  return await Puppeteer.launch()
+  return await Puppeteer.launch({executablePath: getChroniumPath()})
     .then((br) => { browser = br; return browser; })
     .catch((err) => { console.log(err); return null; });
 }

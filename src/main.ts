@@ -12,7 +12,7 @@ const createWindow = (): void => {
   });
 
   // window.webContents.openDevTools();
-  window.loadFile('./index.html');
+  window.loadFile(path.join(__dirname, '/index.html'));
 };
 
 app.whenReady().then(createWindow);
