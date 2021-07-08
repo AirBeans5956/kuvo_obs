@@ -110,3 +110,4 @@ dist
 
 # Project specify configures
 config.json5
+build/
