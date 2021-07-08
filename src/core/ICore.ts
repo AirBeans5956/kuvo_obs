@@ -1,4 +1,3 @@
-import { ITask } from '../states/ITask';
 import { KuvoTrack } from '../types/kuvo_obs';
 
 export default interface ICore {
@@ -15,7 +14,6 @@ export default interface ICore {
 
 declare global {
   interface Window {
-    myApp: ICore;
     kuvo_obs: ICore;
   }
 }

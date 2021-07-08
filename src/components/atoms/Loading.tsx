@@ -1,6 +1,6 @@
 import React from 'react';
 import { keyframes } from 'styled-components';
-import { styled } from './FoundationStyles';
+import { styled } from '../FoundationStyles';
 
 interface IProps {
   shown: boolean;

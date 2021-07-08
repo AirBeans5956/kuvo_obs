@@ -19,7 +19,6 @@ const preloadState = () => {
 };
 
 export type StoreState = ReturnType<typeof preloadState>;
-export type ReduxStore = Store<Store>;
 
 const createStore = () => {
   return configureStore({

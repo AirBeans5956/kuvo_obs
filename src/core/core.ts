@@ -1,8 +1,5 @@
-import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
-import shortid from 'shortid';
-import { ITask } from '../states/ITask';
 import ICore from './ICore';
 import { connectObs, disconnectObs, showTrackData } from './modules/obs';
 import { fetchTrackData } from './modules/kuvo';

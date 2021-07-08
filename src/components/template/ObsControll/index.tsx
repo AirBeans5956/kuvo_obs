@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import StatusLamp from '../../atoms/StatusLamp';
 import { useObsState } from '../../../ducks/obs/selectors';
 import { LampStatus } from '../../../types/kuvo_obs';
-import TextBox from '../../atoms/TextBox';
 import Button from '../../atoms/Button';
 import { useDispatch } from 'react-redux';
 import { connectObsThunk, disconnectObsThunk } from '../../../ducks/obs/operations';
