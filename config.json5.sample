@@ -1,0 +1,8 @@
+{
+  // ポート番号
+  port: 4444,
+  // websocketサーバー設定で決めたパスワード
+  password: "WRITE_PASSWORD_HERE",
+  // KUVOのプレイリストID
+  listId: 0,
+}

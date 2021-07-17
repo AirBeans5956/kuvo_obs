@@ -1,12 +1,102 @@
 {
   "name": "kuvo-obs",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "electron ./dist/main.js",
+    "build:main": "tsc",
+    "build:render": "webpack",
+    "package:mac": "electron-builder --mac --x64",
+    "package:win": "electron-builder --win --x64"
+  },
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "~8.0.0",
+    "@reduxjs/toolkit": "^1.5.1",
+    "css-modules-typescript-loader": "^4.0.1",
+    "eslint-loader": "^4.0.2",
+    "fs-extra": "^9.1.0",
+    "html-webpack-plugin": "^5.3.1",
+    "json5": "^2.2.0",
+    "moment": "^2.29.1",
     "obs-websocket-js": "~4.0.2",
-    "json5": "^2.2.0"
-
+    "puppeteer": "~8.0.0",
+    "react": "^17.0.1",
+    "react-datepicker": "^3.7.0",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "reset-css": "^5.0.1",
+    "shortid": "^2.2.16",
+    "styled-components": "^5.2.3",
+    "typescript-fsa": "^3.0.0",
+    "typescript-fsa-reducers": "^1.2.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.10",
+    "@types/jest": "^26.0.22",
+    "@types/moment": "^2.13.0",
+    "@types/react": "^17.0.3",
+    "@types/react-datepicker": "^3.1.8",
+    "@types/react-dom": "^17.0.2",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux": "^3.6.0",
+    "@types/shortid": "^0.0.29",
+    "@types/styled-components": "^5.1.9",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "css-loader": "^5.2.0",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.11.7",
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "style-loader": "^2.0.0",
+    "ts-jest": "^26.5.4",
+    "ts-loader": "^8.0.18",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "webpack": "^5.26.3",
+    "webpack-cli": "^4.5.0"
+  },
+  "build": {
+    "productName": "KUVO_OBS",
+    "appId": "com.airbeans5956.kuvo-obs",
+    "directories": {
+      "output": "./build"
+    },
+    "files": [
+      "./dist/**/*.js",
+      "./dist/index.html",
+      "./dist/main.js"
+    ],
+    "asar": true,
+    "asarUnpack": "node_modules/puppeteer/.local-chromium/**/*",
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": "msi"
+    }
   }
 }
